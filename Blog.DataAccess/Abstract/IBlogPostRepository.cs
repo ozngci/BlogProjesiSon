@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace Blog.DataAccess.Abstract
 {
-    public interface IBlogPostRepository
+    public interface IBlogPostRepository:IBaseRepository<BlogPost>
     {
-        Task<IEnumerable<BlogPost>> GetAllAsync();
-        Task<BlogPost?> GetAsync(Guid id);
+
+        Task<IEnumerable<BlogPost>> GetAllBlogPostAsync();
+        Task<BlogPost?> UpdateBlogPostAsync(BlogPost blogPost);
+        Task<BlogPost?> DeleteBlogPostAsync(Guid id);
         Task<BlogPost?> GetByUrlHandleAsync(string urlHandle);
-        Task<BlogPost> AddAsync(BlogPost blogPost);
-        Task<BlogPost?> UpdateAsync(BlogPost blogPost);
-        Task<BlogPost?> DeleteAsync(Guid id);
+        
+        
+        
     }
 }

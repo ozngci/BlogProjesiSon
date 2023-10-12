@@ -1,5 +1,7 @@
 ﻿using Blog.DataAccess.Abstract;
+using Blog.DataAccess.Contexts;
 using Blog.Entity.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,31 +10,44 @@ using System.Threading.Tasks;
 
 namespace Blog.DataAccess.Concrete
 {
-    public class TagRepository : ITagRepository
+    public class TagRepository : BaseRepository<Tag>, ITagRepository
     {
-        public Task<Tag> AddAsync(Tag tag)
+        private readonly BlogProjesiDbContext blogProjesiDbContext;
+
+        public TagRepository(BlogProjesiDbContext blogProjesiDbContext) : base(blogProjesiDbContext)
         {
-            throw new NotImplementedException();
+            this.blogProjesiDbContext = blogProjesiDbContext;
         }
 
-        public Task<Tag?> DeleteAsync(Guid id)
+        public async Task<Tag> DeleteTagAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var existingTag = await blogProjesiDbContext.Tags.FindAsync(id);
+            if (existingTag != null)
+            {
+                blogProjesiDbContext.Tags.Remove(existingTag);
+                await blogProjesiDbContext.SaveChangesAsync();
+                return existingTag;
+            }
+            return null;
         }
 
-        public Task<IEnumerable<Tag>> GetAllAsync()
+        public async Task<IEnumerable<Tag>> GetAllTagAsync()
         {
-            throw new NotImplementedException();
+            return await blogProjesiDbContext.Tags.Include(x=>x.BlogPosts).ToListAsync();
+            
         }
 
-        public Task<Tag?> GetAsync(Guid id)
+        public async Task<Tag> UpdateTagAsync(Tag tag)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Tag?> UpdateAsync(Tag tag)
-        {
-            throw new NotImplementedException();
+            var existingTag = await blogProjesiDbContext.Tags.FindAsync(tag.Id);
+            if (existingTag != null)
+            {
+                existingTag.Name = tag.Name;
+                existingTag.DisplayName = tag.DisplayName;
+                await blogProjesiDbContext.SaveChangesAsync();
+                return existingTag;
+            }
+            return null;
         }
     }
 }

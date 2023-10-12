@@ -1,4 +1,7 @@
-﻿using Blog.Web.Models;
+﻿using Blog.Business.Abstract;
+using Blog.DataAccess.Concrete;
+using Blog.DataAccess.DTO;
+using Blog.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,15 +10,31 @@ namespace Blog.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IBlogPostManager blogPostManager;
+        private readonly ITagManager tagManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IBlogPostManager blogPostManager, ITagManager tagManager)
         {
             _logger = logger;
+            this.blogPostManager = blogPostManager;
+            this.tagManager = tagManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            // getting all blogs
+            var blogPosts = await blogPostManager.GetAllBlogPostAsync();
+
+            // getting all tags
+            var tags = await tagManager.GetAllTagAsync();
+
+            var model = new HomeViewModel
+            {
+                BlogPosts = blogPosts,
+                Tags = tags
+            };
+
+            return View(model);
         }
 
         public IActionResult Privacy()

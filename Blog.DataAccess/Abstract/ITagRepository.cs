@@ -1,4 +1,5 @@
-﻿using Blog.Entity.Entities;
+﻿using Blog.DataAccess.Contexts;
+using Blog.Entity.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +8,13 @@ using System.Threading.Tasks;
 
 namespace Blog.DataAccess.Abstract
 {
-    public interface ITagRepository
+    public interface ITagRepository:IBaseRepository<Tag>
     {
-        Task<IEnumerable<Tag>> GetAllAsync();
-        Task<Tag?> GetAsync(Guid id);
-        Task<Tag> AddAsync(Tag tag);
-        Task<Tag?> UpdateAsync(Tag tag);
-        Task<Tag?> DeleteAsync(Guid id);
+
+        Task<Tag> UpdateTagAsync(Tag tag);
+        Task<Tag> DeleteTagAsync(Guid id);
+        Task<IEnumerable<Tag>> GetAllTagAsync();
+
+
     }
 }
