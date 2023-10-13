@@ -32,6 +32,11 @@ namespace Blog.Web.Controllers
         [ActionName("Add")]
         public async Task<IActionResult> Add(AddTagRequest addTagRequest)
         {
+            if (ModelState.IsValid==false)
+            {
+                return View();
+            }
+
             var tag = mapper.Map<Tag>(addTagRequest);
             await tagManager.AddAsync(tag);
             return RedirectToAction("List");
