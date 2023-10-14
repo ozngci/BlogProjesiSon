@@ -188,5 +188,7 @@ namespace Blog.Web.Controllers
             // we will show error notification
             return RedirectToAction("Edit", new { id = editBlogPostRequest.Id });
         }
+
+        
     }
 }
