@@ -14,8 +14,10 @@ namespace Blog.DataAccess.Abstract
         Task<BlogPost?> UpdateBlogPostAsync(BlogPost blogPost);
         Task<BlogPost?> DeleteBlogPostAsync(Guid id);
         Task<BlogPost?> GetByUrlHandleAsync(string urlHandle);
+
+
         
-        
-        
+
+
     }
 }

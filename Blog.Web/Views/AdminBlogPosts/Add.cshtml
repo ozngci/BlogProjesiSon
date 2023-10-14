@@ -11,22 +11,26 @@
 
         <div class="mb-3">
             <label class="form-label">Heading</label>
-            <input class="form-control" type="text" id="heading" asp-for="Heading" />
+            <input class="form-control" type="text" id="heading" asp-for="Heading"  />
+            
         </div>
 
         <div class="mb-3">
             <label class="form-label">Page Title</label>
-            <input class="form-control" type="text" id="pageTitle" asp-for="PageTitle" />
+            <input class="form-control" type="text" id="pageTitle" asp-for="PageTitle"  />
+            
         </div>
 
         <div class="mb-3">
             <label class="form-label">Content</label>
             <textarea class="form-control" id="content" asp-for="Content"></textarea>
+            
         </div>
 
         <div class="mb-3">
             <label class="form-label">Short Description</label>
             <input class="form-control" type="text" id="shortDescription" asp-for="ShortDescription" />
+            
         </div>
 
         <div class="mb-3">
@@ -39,27 +43,32 @@
         <div class="mb-3">
             <label class="form-label">Featured Image URL</label>
             <input class="form-control" type="text" id="featuredImageUrl" asp-for="FeaturedImageUrl" />
+            
         </div>
 
         <div class="mb-3">
             <label class="form-label">URL Handle</label>
             <input class="form-control" type="text" id="urlHandle" asp-for="UrlHandle" />
+            
         </div>
 
         <div class="mb-3">
             <label class="form-label">Published Date</label>
             <input class="form-control" type="date" id="publishedDate" asp-for="PublishedDate" />
+            
         </div>
 
         <div class="mb-3">
             <label class="form-label">Author</label>
             <input class="form-control" type="text" id="author" asp-for="Author" />
+            
         </div>
 
         <div class="mb-3">
             <label class="form-label">Tags</label>
             <select class="form-select" asp-items="@Model.Tags" asp-for="SelectedTags">
             </select>
+            
         </div>
 
         <div class="form-check mb-3">
@@ -67,6 +76,7 @@
             <label class="form-check-label">
                 Is Visible?
             </label>
+            
         </div>
 
         <div class="mb-3">

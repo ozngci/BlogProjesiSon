@@ -14,6 +14,7 @@ namespace Blog.DataAccess.Abstract
         Task<Tag> UpdateTagAsync(Tag tag);
         Task<Tag> DeleteTagAsync(Guid id);
         Task<IEnumerable<Tag>> GetAllTagAsync();
+        
 
 
     }

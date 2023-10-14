@@ -38,9 +38,17 @@ namespace Blog.Web.Controllers
             return View(model);
         }
 
+
+        
+
+
         [HttpPost]
         public async Task<IActionResult> Add(AddBlogPostRequest addBlogPostRequest)
         {
+
+
+
+
             var blogPost = mapper.Map<BlogPost>(addBlogPostRequest);
 
             var selectedTags = new List<Tag>();
@@ -60,7 +68,7 @@ namespace Blog.Web.Controllers
 
             await blogPostManager.AddAsync(blogPost);
 
-            return RedirectToAction("Add");
+            return RedirectToAction("List", "AdminBlogPosts");
         }
 
         [HttpGet]
@@ -113,50 +121,54 @@ namespace Blog.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditBlogPostRequest editBlogPostRequest)
         {
-            var blogPostDomainModel = new BlogPost
-            {
-                Id = editBlogPostRequest.Id,
-                Heading = editBlogPostRequest.Heading,
-                PageTitle = editBlogPostRequest.PageTitle,
-                Content = editBlogPostRequest.Content,
-                Author = editBlogPostRequest.Author,
-                FeaturedImageUrl = editBlogPostRequest.FeaturedImageUrl,
-                UrlHandle = editBlogPostRequest.UrlHandle,
-                ShortDescription = editBlogPostRequest.ShortDescription,
-                PublishedDate = editBlogPostRequest.PublishedDate,
-                Visible = editBlogPostRequest.Visible,
-
-            };
+            
 
 
 
-            var selectedTags = new List<Tag>();
-            foreach (var selectedTag in editBlogPostRequest.SelectedTags)
-            {
-                if (Guid.TryParse(selectedTag, out var tag))
+                var blogPostDomainModel = new BlogPost
                 {
-                    var foundTag = await tagManager.GetAsync(tag);
+                    Id = editBlogPostRequest.Id,
+                    Heading = editBlogPostRequest.Heading,
+                    PageTitle = editBlogPostRequest.PageTitle,
+                    Content = editBlogPostRequest.Content,
+                    Author = editBlogPostRequest.Author,
+                    FeaturedImageUrl = editBlogPostRequest.FeaturedImageUrl,
+                    UrlHandle = editBlogPostRequest.UrlHandle,
+                    ShortDescription = editBlogPostRequest.ShortDescription,
+                    PublishedDate = editBlogPostRequest.PublishedDate,
+                    Visible = editBlogPostRequest.Visible,
 
-                    if (foundTag != null)
+                };
+
+
+
+                var selectedTags = new List<Tag>();
+                foreach (var selectedTag in editBlogPostRequest.SelectedTags)
+                {
+                    if (Guid.TryParse(selectedTag, out var tag))
                     {
-                        selectedTags.Add(foundTag);
+                        var foundTag = await tagManager.GetAsync(tag);
+
+                        if (foundTag != null)
+                        {
+                            selectedTags.Add(foundTag);
+                        }
                     }
                 }
-            }
 
-            blogPostDomainModel.Tags = selectedTags;
-
+                blogPostDomainModel.Tags = selectedTags;
 
 
-            var updatedBlogPost = await blogPostManager.UpdateBlogPostAsync(blogPostDomainModel);
 
-            if (updatedBlogPost != null)
-            {
+                var updatedBlogPost = await blogPostManager.UpdateBlogPostAsync(blogPostDomainModel);
 
-                return RedirectToAction("List");
-            }
+                if (updatedBlogPost != null)
+                {
 
+                    return RedirectToAction("List");
+                }
 
+            
             return RedirectToAction("Edit", new { id = editBlogPostRequest.Id });
 
         }

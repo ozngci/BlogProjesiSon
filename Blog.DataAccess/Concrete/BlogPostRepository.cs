@@ -36,6 +36,8 @@ namespace Blog.DataAccess.Concrete
             return await blogProjesiDbContext.BlogPosts.Include(x => x.Tags).ToListAsync();
         }
 
+        
+
         public async Task<BlogPost?> GetByUrlHandleAsync(string urlHandle)
         {
             return await blogProjesiDbContext.BlogPosts.Include(x => x.Tags).FirstOrDefaultAsync(x => x.UrlHandle == urlHandle);

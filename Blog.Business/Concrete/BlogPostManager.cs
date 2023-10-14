@@ -28,6 +28,8 @@ namespace Blog.Business.Concrete
             return await blogPostRepository.GetAllBlogPostAsync();
         }
 
+        
+
         public async Task<BlogPost?> GetByUrlHandleAsync(string urlHandle)
         {
             return await blogPostRepository.GetByUrlHandleAsync(urlHandle);
