@@ -31,7 +31,9 @@ namespace Blog.Web.Controllers
             var model = new HomeViewModel
             {
                 BlogPosts = blogPosts,
-                Tags = tags
+                Tags = tags,
+                
+                
             };
 
             return View(model);

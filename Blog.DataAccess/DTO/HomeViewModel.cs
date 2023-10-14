@@ -11,5 +11,7 @@ namespace Blog.DataAccess.DTO
     {
         public IEnumerable<BlogPost> BlogPosts { get; set; }
         public IEnumerable<Tag> Tags { get; set; }
+
+        
     }
 }
