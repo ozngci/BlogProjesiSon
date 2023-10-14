@@ -9,7 +9,7 @@
 <div class="container py-5">
     @if (Model != null && Model.Any())
     {
-        
+
         <table class="table">
             <thead>
                 <tr>
@@ -17,14 +17,15 @@
                     <td>Heading</td>
                     <td>Tags</td>
                     <td>Edit</td>
+                    <td>Delete</td>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var blogPost in Model)
                 {
                     <tr>
-                        <td>@blogPost.Id</td>
-                        <td>@blogPost.Heading</td>
+                        <td>@blogPost.Id </td>
+                        <td>@blogPost.Heading </td>
                         <td>
                             <div class="d-flex">
                                 @foreach (var tag in blogPost.Tags)
@@ -37,13 +38,29 @@
                             <a asp-area="" asp-controller="AdminBlogPosts" asp-action="Edit" asp-route-id="@blogPost.Id">
                                 Edit
                             </a>
+
                         </td>
-                        
+                        <td>
+                            <form method="post">
+                                <div>
+                                    <input class="form-control" type="hidden" id="id" asp-for="@blogPost.Id" readonly />
+                                </div>
+                                <div>
+                                    <button type="submit" class="btn btn-danger" asp-area="" asp-controller="AdminBlogPosts" asp-action="DeleteListPage">Delete</button>
+                                </div>
+                            </form>
+                        </td>
+
                     </tr>
+
                 }
             </tbody>
         </table>
-        
+
+
+
+
+
     }
     else
     {
@@ -51,3 +68,5 @@
     }
 
 </div>
+
+

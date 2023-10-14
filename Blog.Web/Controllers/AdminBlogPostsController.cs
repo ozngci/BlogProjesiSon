@@ -39,7 +39,7 @@ namespace Blog.Web.Controllers
         }
 
 
-        
+
 
 
         [HttpPost]
@@ -121,54 +121,54 @@ namespace Blog.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditBlogPostRequest editBlogPostRequest)
         {
-            
 
 
 
-                var blogPostDomainModel = new BlogPost
+
+            var blogPostDomainModel = new BlogPost
+            {
+                Id = editBlogPostRequest.Id,
+                Heading = editBlogPostRequest.Heading,
+                PageTitle = editBlogPostRequest.PageTitle,
+                Content = editBlogPostRequest.Content,
+                Author = editBlogPostRequest.Author,
+                FeaturedImageUrl = editBlogPostRequest.FeaturedImageUrl,
+                UrlHandle = editBlogPostRequest.UrlHandle,
+                ShortDescription = editBlogPostRequest.ShortDescription,
+                PublishedDate = editBlogPostRequest.PublishedDate,
+                Visible = editBlogPostRequest.Visible,
+
+            };
+
+
+
+            var selectedTags = new List<Tag>();
+            foreach (var selectedTag in editBlogPostRequest.SelectedTags)
+            {
+                if (Guid.TryParse(selectedTag, out var tag))
                 {
-                    Id = editBlogPostRequest.Id,
-                    Heading = editBlogPostRequest.Heading,
-                    PageTitle = editBlogPostRequest.PageTitle,
-                    Content = editBlogPostRequest.Content,
-                    Author = editBlogPostRequest.Author,
-                    FeaturedImageUrl = editBlogPostRequest.FeaturedImageUrl,
-                    UrlHandle = editBlogPostRequest.UrlHandle,
-                    ShortDescription = editBlogPostRequest.ShortDescription,
-                    PublishedDate = editBlogPostRequest.PublishedDate,
-                    Visible = editBlogPostRequest.Visible,
+                    var foundTag = await tagManager.GetAsync(tag);
 
-                };
-
-
-
-                var selectedTags = new List<Tag>();
-                foreach (var selectedTag in editBlogPostRequest.SelectedTags)
-                {
-                    if (Guid.TryParse(selectedTag, out var tag))
+                    if (foundTag != null)
                     {
-                        var foundTag = await tagManager.GetAsync(tag);
-
-                        if (foundTag != null)
-                        {
-                            selectedTags.Add(foundTag);
-                        }
+                        selectedTags.Add(foundTag);
                     }
                 }
+            }
 
-                blogPostDomainModel.Tags = selectedTags;
+            blogPostDomainModel.Tags = selectedTags;
 
 
 
-                var updatedBlogPost = await blogPostManager.UpdateBlogPostAsync(blogPostDomainModel);
+            var updatedBlogPost = await blogPostManager.UpdateBlogPostAsync(blogPostDomainModel);
 
-                if (updatedBlogPost != null)
-                {
+            if (updatedBlogPost != null)
+            {
 
-                    return RedirectToAction("List");
-                }
+                return RedirectToAction("List");
+            }
 
-            
+
             return RedirectToAction("Edit", new { id = editBlogPostRequest.Id });
 
         }
@@ -189,6 +189,23 @@ namespace Blog.Web.Controllers
             return RedirectToAction("Edit", new { id = editBlogPostRequest.Id });
         }
 
-        
+        [HttpPost]
+        public async Task<IActionResult> DeleteListPage(BlogPost blogPost)
+        {
+            var deletedBlogPost = await blogPostManager.DeleteBlogPostAsync(blogPost.Id);
+
+            if (deletedBlogPost != null)
+            {
+                // show success notification
+                return RedirectToAction("List");
+            }
+
+            // we will show error notification
+            return RedirectToAction("Edit", new { id = blogPost.Id });
+        }
+
+
+
+
     }
 }
